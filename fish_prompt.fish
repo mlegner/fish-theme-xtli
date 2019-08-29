@@ -18,10 +18,20 @@ function fish_prompt
   # Setup colors
   set -l normal (set_color normal)
   set -l cyan (set_color brcyan)
+  set -l magenta (set_color magenta)
   set -l yellow (set_color -o bryellow)
   set -l bblack (set_color -o black)
   set -l bred (set_color -o red)
   set -l date (date "+%Y-%m-%d %H:%M")
+
+  switch (id -u)
+    case 0
+      set __prompt_user_color -o magenta
+      set __prompt_user \u221A
+    case '*'
+      set __prompt_user_color cyan
+      set __prompt_user $USER
+  end
 
   # Color prompt char red for non-zero exit status
   set -l pcolor $bblack
@@ -38,7 +48,7 @@ function fish_prompt
   set -l prompt_columns (printf '%s%s %s: %s%s' $CONDA_PROMPT_MODIFIER $USER $date (prompt_pwd) (__fish_git_prompt) | wc -c)
   echo ""
   if test $prompt_columns -lt $COLUMNS
-    echo -n $cyan$USER$normal $yellow$date$normal: $bred(prompt_pwd)$normal
+    echo -n (set_color $__prompt_user_color)$__prompt_user$normal $yellow$date$normal: $bred(prompt_pwd)$normal
     set -g __fish_git_prompt_showcolorhints true
     __fish_git_prompt
     echo
@@ -46,7 +56,7 @@ function fish_prompt
     set fish_prompt_pwd_dir_length 1
     set -l prompt_columns (printf '%s%s %s: %s%s' $CONDA_PROMPT_MODIFIER $USER $date (prompt_pwd) (__fish_git_prompt) | wc -c)
     if test $prompt_columns -lt $COLUMNS
-      echo -n $cyan$USER$normal $yellow$date$normal: $bred(prompt_pwd)$normal
+      echo -n (set_color $__prompt_user_color)$__prompt_user$normal $yellow$date$normal: $bred(prompt_pwd)$normal
       set -g __fish_git_prompt_showcolorhints true
       __fish_git_prompt
       echo
