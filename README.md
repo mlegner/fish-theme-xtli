@@ -1,8 +1,8 @@
 # fish-theme-xtli
 
-A minimal theme forked from the oh-my-fish/theme-cbjohnson theme with elegant vi-mode indicator.
+A minimal theme forked from the oh-my-fish/theme-cbjohnson theme via znculee/fish-theme-xtli.
 
-**Install** with [fisher](https://github.com/jorgebucaran/fisher) using command `fisher add znculee/fish-theme-xtli`.
+**Install** with [fisher](https://github.com/jorgebucaran/fisher) using command `fisher add mlegner/fish-theme-xtli`.
 
 ![demo](demo.png)
 
@@ -14,7 +14,6 @@ A minimal theme forked from the oh-my-fish/theme-cbjohnson theme with elegant vi
 - Display username, hostname and current path.
 - Fast, clear, simple and extensible.
 - Comfort with solarized dark.
-- Vi mode indicator.
 
 ## Troubleshooting
 

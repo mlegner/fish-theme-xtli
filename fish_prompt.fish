@@ -17,10 +17,11 @@ function fish_prompt
 
   # Setup colors
   set -l normal (set_color normal)
-  set -l cyan (set_color cyan)
-  set -l yellow (set_color yellow)
+  set -l cyan (set_color brcyan)
+  set -l yellow (set_color bryellow)
   set -l bblack (set_color -o black)
   set -l bred (set_color -o red)
+  set -l date (date "+%Y-%m-%d %H:%M")
 
   # Color prompt char red for non-zero exit status
   set -l pcolor $bblack
@@ -34,17 +35,18 @@ function fish_prompt
 
   # Top
   set fish_prompt_pwd_dir_length 0
-  set -l prompt_columns (printf '%s%s @ %s: %s%s' $CONDA_PROMPT_MODIFIER $USER $__fish_prompt_hostname (prompt_pwd) (__fish_git_prompt) | wc -c)
+  set -l prompt_columns (printf '%s%s @ %s: %s%s' $CONDA_PROMPT_MODIFIER $USER $date (prompt_pwd) (__fish_git_prompt) | wc -c)
+  echo ""
   if test $prompt_columns -lt $COLUMNS
-    echo -n $cyan$USER$normal @ $yellow$__fish_prompt_hostname$normal: $bred(prompt_pwd)$normal
+    echo -n $cyan$USER$normal @ $yellow$date$normal: $bred(prompt_pwd)$normal
     set -g __fish_git_prompt_showcolorhints true
     __fish_git_prompt
     echo
   else
     set fish_prompt_pwd_dir_length 1
-    set -l prompt_columns (printf '%s%s @ %s: %s%s' $CONDA_PROMPT_MODIFIER $USER $__fish_prompt_hostname (prompt_pwd) (__fish_git_prompt) | wc -c)
+    set -l prompt_columns (printf '%s%s @ %s: %s%s' $CONDA_PROMPT_MODIFIER $USER $date (prompt_pwd) (__fish_git_prompt) | wc -c)
     if test $prompt_columns -lt $COLUMNS
-      echo -n $cyan$USER$normal @ $yellow$__fish_prompt_hostname$normal: $bred(prompt_pwd)$normal
+      echo -n $cyan$USER$normal @ $yellow$date$normal: $bred(prompt_pwd)$normal
       set -g __fish_git_prompt_showcolorhints true
       __fish_git_prompt
       echo
@@ -60,25 +62,5 @@ function fish_prompt
   end
 
   # Bottom
-  if test "$fish_key_bindings" = "fish_vi_key_bindings"
-    or test "$fish_key_bindings" = "fish_hybrid_key_bindings"
-    switch $fish_bind_mode
-      case default
-        set_color --bold brred
-        echo -n '[N]'
-      case insert
-        set_color --bold brblack
-        echo -n '[I]'
-      case replace_one
-        set_color --bold brgreen
-        echo -n '[R]'
-      case visual
-        set_color --bold brmagenta
-        echo -n '[V]'
-    end
-      set_color normal
-      echo -n $pcolor$__fish_prompt_char $normal
-  else
-    echo -n $pcolor$__fish_prompt_char $normal
-  end
+  echo -n $pcolor$__fish_prompt_char $normal
 end
